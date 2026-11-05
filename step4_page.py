@@ -17,6 +17,7 @@ def render_step4_page():
     if 'step4_data' not in st.session_state:
         st.session_state.step4_data = {
             'openai_key': '',
+            'gemini_key': '',
             'db_host': 'localhost',
             'db_port': '5432',
             'db_name': '',
@@ -60,25 +61,15 @@ def render_step4_page():
         # Additional API keys section
         st.subheader("API Keys Lainnya (Opsional)")
         
-        with st.expander("Claude API Key"):
-            claude_key = st.text_input(
-                "Claude API Key",
-                placeholder="sk-ant-...",
-                type="password",
-                key="claude_key_input"
-            )
-            if claude_key:
-                st.session_state.step4_data['claude_key'] = claude_key
-        
-        with st.expander("Google API Key"):
-            google_key = st.text_input(
-                "Google API Key",
-                placeholder="AIza...",
-                type="password",
-                key="google_key_input"
-            )
-            if google_key:
-                st.session_state.step4_data['google_key'] = google_key
+        gemini_key = st.text_input(
+            "Gemini API Key",
+            value=st.session_state.step4_data['gemini_key'],
+            placeholder="Gemini API key",
+            type="password",
+            key="gemini_key_input"
+        )
+        if gemini_key:
+            st.session_state.step4_data['gemini_key'] = gemini_key
     
     # ==================== TAB 2: DATABASE CONFIG ====================
     with tab2:
@@ -185,8 +176,7 @@ def render_step4_page():
                     'project_id': st.session_state.get('current_project_id'),
                     'api_keys': {
                         'openai': st.session_state.step4_data.get('openai_key', ''),
-                        'claude': st.session_state.step4_data.get('claude_key', ''),
-                        'google': st.session_state.step4_data.get('google_key', '')
+                        'gemini': st.session_state.step4_data.get('gemini_key', '')
                     },
                     'database': {
                         'type': st.session_state.step4_data.get('db_type', 'PostgreSQL'),
